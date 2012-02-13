@@ -137,18 +137,26 @@ L<Selenium::Remote::Driver>.  This subclass provides useful testing
 functions.  It is modeled on L<Test::WWW::Selenium>.
 
 Environment vars can be used to specify options to pass to
-L<Selenium::Remote::Driver>. ENV vars are prefixed with C<TWD_>
-such as C<$TWD_BROWSER> or C<$TWD_PLATFORM>.
+L<Selenium::Remote::Driver>. ENV vars are prefixed with C<TWD_>.
+
+Set the Selenium server address with C<$TWD_HOST> and C<$TWD_PORT>.
+
+Pick which browser is used using the  C<$TWD_BROWSER>, C<$TWD_VERSION>,
+C<$TWD_PLATFORM>, C<$TWD_JAVASCRIPT>, C<$TWD_EXTRA_CAPABILITIES>.
+
+See L<Selenium::Driver::Remote> for the meanings of these options.
 
 =cut
 
 sub new {
     my ($class, %p) = @_;
 
-    for my $opt (qw/browser_name version platform javascript auto_close
-                    extra_capabilities/) {
+    for my $opt (qw/remote_server_addr port browser_name version platform 
+                    javascript auto_close extra_capabilities/) {
         $p{$opt} ||= $ENV{ 'TWD_' . uc($opt) };
     }
+    $p{browser_name}       ||= $ENV{TWD_BROWSER}; # ykwim
+    $p{remote_server_addr} ||= $ENV{TWD_HOST};    # ykwim
 
     my $self = $class->SUPER::new(%p);
     $self->{verbose} = $p{verbose};
@@ -160,15 +168,15 @@ sub new {
 Returns true if a Selenium server is running.  The host and port 
 parameters are optional, and default to C<localhost:4444>.
 
-Environment vars C<SRC_HOST> and C<SRC_PORT> can also be used to
+Environment vars C<TWD_HOST> and C<TWD_PORT> can also be used to
 determine the server to check.
 
 =cut
 
 sub server_is_running {
     my $class_or_self = shift;
-    my $host = $ENV{SRC_HOST} || shift || 'localhost';
-    my $port = $ENV{SRC_PORT} || shift || 4444;
+    my $host = $ENV{TWD_HOST} || shift || 'localhost';
+    my $port = $ENV{TWD_PORT} || shift || 4444;
 
     return ($host, $port) if IO::Socket::INET->new(
         PeerAddr => $host,
