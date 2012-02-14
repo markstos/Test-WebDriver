@@ -228,7 +228,7 @@ This work was sponsored by Prime Radiant, Inc.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2012 Luke Closs <lukec@cpan.org>
+Copyright (c) 2012 Prime Radiant, Inc.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
