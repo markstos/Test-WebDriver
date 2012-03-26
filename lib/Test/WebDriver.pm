@@ -222,6 +222,8 @@ __END__
 Created by: Luke Closs <lukec@cpan.org>, but inspired by
  L<Test::WWW::Selenium> and it's authors.
 
+=back
+
 =head1 CONTRIBUTORS
 
 This work was sponsored by Prime Radiant, Inc.
