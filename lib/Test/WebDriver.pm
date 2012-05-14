@@ -24,7 +24,7 @@ my $comparator_keys = join '|', keys %comparator;
 # These commands don't require a locator                                      
 my %no_locator = map { $_ => 1 }                                              
                 qw( alert_text current_window_handle current_url              
-                    title page_source body );                                      
+                    title page_source body location path);                                      
                                                                               
 sub no_locator {                                                              
     my $self   = shift;                                                       
@@ -207,6 +207,23 @@ sub get_text {
 sub get_body {
     my $self = shift;
     return $self->get_text('//body');
+}
+
+=head3 get_location 
+
+=cut
+
+sub get_location {
+    return shift->get_current_url();
+}
+
+sub get_path {
+    my $self = shift;
+    my $location = $self->get_location;
+    $location =~ s/\?.*//; # strip of query params
+    $location =~ s/#.*//; # strip of anchors
+    $location =~ s#^https?://[^/]+##; # strip off host
+    return $location;
 }
 
 1;
