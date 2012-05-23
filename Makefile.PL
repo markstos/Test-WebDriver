@@ -19,8 +19,13 @@ my %WriteMakefileArgs = (
   "EXE_FILES" => [],
   "LICENSE" => "perl",
   "NAME" => "Test::WebDriver",
-  "PREREQ_PM" => {},
-  "VERSION" => "0.001",
+  "PREREQ_PM" => {
+      'Selenium::Remote::Driver' => 0,
+      'Test::More' => 0,
+      'Test::Builder' => 0,
+      'IO::Socket' => 0,
+  },
+  "VERSION" => "0.01",
   "test" => {
     "TESTS" => "t/*.t"
   }
