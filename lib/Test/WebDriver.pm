@@ -193,6 +193,8 @@ Below here are some methods that make things less easier or less wordy.
 
 =head3 get_text 
 
+Get the text of a particular element. Wrapper around find_element()
+
 =cut
 
 sub get_text {
@@ -201,6 +203,8 @@ sub get_text {
 }
 
 =head3 get_body
+
+Get the current text for the whole body.
 
 =cut
 
@@ -211,11 +215,19 @@ sub get_body {
 
 =head3 get_location 
 
+Get the current URL.
+
 =cut
 
 sub get_location {
     return shift->get_current_url();
 }
+
+=head3 get_location 
+
+Get the path part of the current browser location.
+
+=cut
 
 sub get_path {
     my $self = shift;
@@ -229,6 +241,13 @@ sub get_path {
 1;
 
 __END__
+
+=head1 NOTES
+
+For Best Practice - I recommend subclassing Test::WebDriver for your application,
+and then refactoring common or app specific methods into MyApp::WebDriver so that
+your test files do not have much duplication.  As your app changes, you can update
+MyApp::WebDriver rather than all the individual test files.
 
 =head1 AUTHORS
 
