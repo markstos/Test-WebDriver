@@ -21,15 +21,15 @@ my %comparator = (
 );
 my $comparator_keys = join '|', keys %comparator;
 
-# These commands don't require a locator                                      
-my %no_locator = map { $_ => 1 }                                              
-                qw( alert_text current_window_handle current_url              
-                    title page_source body location path);                                      
-                                                                              
-sub no_locator {                                                              
-    my $self   = shift;                                                       
-    my $method = shift;                                                       
-    return $no_locator{$method};                                              
+# These commands don't require a locator
+my %no_locator = map { $_ => 1 }
+                qw( alert_text current_window_handle current_url
+                    title page_source body location path);
+
+sub no_locator {
+    my $self   = shift;
+    my $method = shift;
+    return $no_locator{$method};
 }
 
 sub AUTOLOAD {
