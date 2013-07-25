@@ -223,7 +223,7 @@ sub get_location {
     return shift->get_current_url();
 }
 
-=head3 get_location 
+=head3 get_path
 
 Get the path part of the current browser location.
 
