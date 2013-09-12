@@ -2,6 +2,9 @@
     - Removed 'get_location()' as an alias. Please use the more specific 'get_current_url()' instead.
       It's a more specific name that matches the Selenium API method name.
 
+    - Removed remaining "Glue Code" methods. They were merged into the parent class,
+      so they no longer need to repeated here. (Mark Stosberg)
+
 0.01    -   May 22nd, 2012
 
     - Initial Release

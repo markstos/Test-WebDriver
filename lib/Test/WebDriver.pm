@@ -186,48 +186,6 @@ sub server_is_running {
 
 }
 
-
-=head2 Glue Code
-
-Below here are some methods that make things less easier or less wordy.
-
-=head3 get_text 
-
-Get the text of a particular element. Wrapper around find_element()
-
-=cut
-
-sub get_text {
-    my $self = shift;
-    return $self->find_element(@_)->get_text();
-}
-
-=head3 get_body
-
-Get the current text for the whole body.
-
-=cut
-
-sub get_body {
-    my $self = shift;
-    return $self->get_text('//body');
-}
-
-=head3 get_path
-
-Get the path part of the current browser location.
-
-=cut
-
-sub get_path {
-    my $self = shift;
-    my $location = $self->get_current_url;
-    $location =~ s/\?.*//; # strip of query params
-    $location =~ s/#.*//; # strip of anchors
-    $location =~ s#^https?://[^/]+##; # strip off host
-    return $location;
-}
-
 1;
 
 __END__
@@ -252,7 +210,7 @@ Created by: Luke Closs <lukec@cpan.org>, but inspired by
 
 =head1 CONTRIBUTORS
 
-This work was sponsored by Prime Radiant, Inc.
+This work was sponsored by Prime Radiant, Inc. Mark Stosberg <mark@stosberg.com> also contributed.
 
 =head1 COPYRIGHT AND LICENSE
 
