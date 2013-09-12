@@ -213,16 +213,6 @@ sub get_body {
     return $self->get_text('//body');
 }
 
-=head3 get_location 
-
-Get the current URL.
-
-=cut
-
-sub get_location {
-    return shift->get_current_url();
-}
-
 =head3 get_path
 
 Get the path part of the current browser location.
@@ -231,7 +221,7 @@ Get the path part of the current browser location.
 
 sub get_path {
     my $self = shift;
-    my $location = $self->get_location;
+    my $location = $self->get_current_url;
     $location =~ s/\?.*//; # strip of query params
     $location =~ s/#.*//; # strip of anchors
     $location =~ s#^https?://[^/]+##; # strip off host
