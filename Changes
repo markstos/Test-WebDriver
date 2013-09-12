@@ -1,7 +1,19 @@
 
+    [THINGS THAT MIGHT BREAK YOUR CODE]
+
     - Removed 'get_location()' as an alias. Please use the more specific 'get_current_url()' instead.
       It's a more specific name that matches the Selenium API method name.
 
+    [NEW FEATURES]
+
+    - Added and started using Test::WebDriver::WebElement. This a sub-class of
+      Selenium::Remote::Driver::WebElement. This allows testing methods on
+      the "WebElement" object as well as main '$driver' object.
+
+      Requires at least Selenium::Remote::Driver 0.18 to work.
+
+    [INTERNALS]
+    
     - Removed remaining "Glue Code" methods. They were merged into the parent class,
       so they no longer need to repeated here. (Mark Stosberg)
 

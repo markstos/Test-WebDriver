@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Test::WebDriver;
-use base 'Selenium::Remote::Driver';
+use parent  'Selenium::Remote::Driver';
 # ABSTRACT: Useful testing subclass for Selenium WebDriver!
 
 use Test::More;
@@ -151,12 +151,13 @@ See L<Selenium::Driver::Remote> for the meanings of these options.
 sub new {
     my ($class, %p) = @_;
 
-    for my $opt (qw/remote_server_addr port browser_name version platform 
+    for my $opt (qw/remote_server_addr port browser_name version platform
                     javascript auto_close extra_capabilities/) {
         $p{$opt} ||= $ENV{ 'TWD_' . uc($opt) };
     }
     $p{browser_name}       ||= $ENV{TWD_BROWSER}; # ykwim
     $p{remote_server_addr} ||= $ENV{TWD_HOST};    # ykwim
+    $p{webelement_class}   ||= 'Test::WebDriver::WebElement';
 
     my $self = $class->SUPER::new(%p);
     $self->{verbose} = $p{verbose};
