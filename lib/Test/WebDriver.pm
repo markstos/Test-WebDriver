@@ -4,8 +4,10 @@ package Test::WebDriver;
 use parent  'Selenium::Remote::Driver';
 # ABSTRACT: Useful testing subclass for Selenium WebDriver!
 
+use Test::WebDriver::WebElement;
 use Test::More;
 use Test::Builder;
+use Test::LongString;
 use IO::Socket;
 
 our $AUTOLOAD;
@@ -186,6 +188,153 @@ sub server_is_running {
     return;
 
 }
+
+=head2 $twd->content_like( $regex [, $desc ] )
+
+   $twd->content_like( $regex [, $desc ] )
+   $twd->content_like( [$regex_1, $regex_2] [, $desc ] )
+
+Tells if the content of the page matches I<$regex>. If an arrayref of regex's
+are provided, one 'test' is run for each regex against the content of the
+current page.
+
+A default description of 'Content is like "$regex"' will be provided if there
+is no description.
+
+=cut
+
+sub content_like {
+    my $self = shift;
+    my $regex = shift;
+    my $desc = shift;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $content = $self->get_page_source();
+
+    if (not ref $regex eq 'ARRAY') {
+        my $desc = qq{Content is like "$regex"} if (not defined $desc);
+        return like_string($content , $regex, $desc );
+    }
+    elsif (ref $regex eq 'ARRAY') {
+        for my $re (@$regex) {
+            my $desc = qq{Content is like "$re"} if (not defined $desc);
+            like_string($content , $re, $desc );
+        }
+    }
+}
+
+=head2 $twd->content_unlike( $regex [, $desc ] )
+
+   $twd->content_unlike( $regex [, $desc ] )
+   $twd->content_unlike( [$regex_1, $regex_2] [, $desc ] )
+
+Tells if the content of the page does NOT match I<$regex>. If an arrayref of regex's
+are provided, one 'test' is run for each regex against the content of the
+current page.
+
+A default description of 'Content is unlike "$regex"' will be provided if there
+is no description.
+
+=cut
+
+sub content_unlike {
+    my $self = shift;
+    my $regex = shift;
+    my $desc = shift;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $content = $self->get_page_source();
+
+    if (not ref $regex eq 'ARRAY') {
+        my $desc = qq{Content is unlike "$regex"} if (not defined $desc);
+        return unlike_string($content , $regex, $desc );
+    }
+    elsif (ref $regex eq 'ARRAY') {
+        for my $re (@$regex) {
+            my $desc = qq{Content is unlike "$re"} if (not defined $desc);
+            unlike_string($content , $re, $desc );
+        }
+    }
+}
+
+
+=head2 $twd->text_like( $regex [, $desc ] )
+
+   $twd->text_like( $regex [, $desc ] )
+   $twd->text_like( [$regex_1, $regex_2] [, $desc ] )
+
+Tells if the text of the page (as returned by C<< get_body() >>)  matches
+I<$regex>. If an arrayref of regex's are provided, one 'test' is run for each
+regex against the content of the current page.
+
+A default description of 'Content is like "$regex"' will be provided if there
+is no description.
+
+To also match the HTML see, C<< content_unlike() >>.
+
+=cut
+
+sub text_like {
+    my $self = shift;
+    my $regex = shift;
+    my $desc = shift;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $text = $self->get_body();
+
+    if (not ref $regex eq 'ARRAY') {
+        my $desc = qq{Text is like "$regex"} if (not defined $desc);
+        return like_string($text , $regex, $desc );
+    }
+    elsif (ref $regex eq 'ARRAY') {
+        for my $re (@$regex) {
+            my $desc = qq{Text is like "$re"} if (not defined $desc);
+            like_string($text , $re, $desc );
+        }
+    }
+}
+
+=head2 $twd->text_unlike( $regex [, $desc ] )
+
+   $twd->text_unlike( $regex [, $desc ] )
+   $twd->text_unlike( [$regex_1, $regex_2] [, $desc ] )
+
+Tells if the text of the page (as returned by C<< get_body() >>)
+ does NOT match I<$regex>. If an arrayref of regex's
+are provided, one 'test' is run for each regex against the content of the
+current page.
+
+A default description of 'Text is unlike "$regex"' will be provided if there
+is no description.
+
+To also match the HTML see, C<< content_unlike() >>.
+
+=cut
+
+sub text_unlike {
+    my $self = shift;
+    my $regex = shift;
+    my $desc = shift;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $text = $self->get_body();
+
+    if (not ref $regex eq 'ARRAY') {
+        my $desc = qq{Text is unlike "$regex"} if (not defined $desc);
+        return unlike_string($text , $regex, $desc );
+    }
+    elsif (ref $regex eq 'ARRAY') {
+        for my $re (@$regex) {
+            my $desc = qq{Text is unlike "$re"} if (not defined $desc);
+            unlike_string($text , $re, $desc );
+        }
+    }
+}
+
 
 1;
 

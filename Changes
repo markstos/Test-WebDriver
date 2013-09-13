@@ -12,7 +12,29 @@
 
       Requires at least Selenium::Remote::Driver 0.18 to work.
 
+    - Adding test checking methods:
+
+        # Run regex's against the entire page source
+        content_like()
+        content_unlike()
+
+        # Run regex's against just the "text" of the page
+        text_like()
+        text_unlike()
+
+      The names are intentionally the same as their Test::WWW::Mechanize
+      counterparts.  However, these methods may take an arrayref of regular
+      expressions for improved performance when you want to run multiple tests
+      against the same page.
+
+      Normally Selenium::Remote::Driver would make an HTTP request to the
+      driven browser for each content check. By using an arrayref for multiple
+      checks of the same page, you can avoid the extra HTTP requests
+      and speed up your tests. (Mark Stosberg)
+
+
     [INTERNALS]
+    - Added Test::LongString as a dependency to support the new content checking methods.
     
     - Removed remaining "Glue Code" methods. They were merged into the parent class,
       so they no longer need to repeated here. (Mark Stosberg)
