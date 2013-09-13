@@ -335,6 +335,155 @@ sub text_unlike {
     }
 }
 
+#####
+
+=head2 $twd->content_contains( $str [, $desc ] )
+
+   $twd->content_contains( $str [, $desc ] )
+   $twd->content_contains( [$str_1, $str_2] [, $desc ] )
+
+Tells if the content of the page contains I<$str>. If an arrayref of strngs's
+are provided, one 'test' is run for each string against the content of the
+current page.
+
+A default description of 'Content contains "$str"' will be provided if there
+is no description.
+
+=cut
+
+sub content_contains {
+    my $self = shift;
+    my $str = shift;
+    my $desc = shift;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $content = $self->get_page_source();
+
+    if (not ref $str eq 'ARRAY') {
+        my $desc = qq{Content contains "$str"} if (not defined $desc);
+        return contains_string($content , $str, $desc );
+    }
+    elsif (ref $str eq 'ARRAY') {
+        for my $s (@$str) {
+            my $desc = qq{Content contains "$s"} if (not defined $desc);
+            contains_string($content , $s, $desc );
+        }
+    }
+}
+
+=head2 $twd->content_lacks( $str [, $desc ] )
+
+   $twd->content_lacks( $str [, $desc ] )
+   $twd->content_lacks( [$str_1, $str_2] [, $desc ] )
+
+Tells if the content of the page does NOT contain I<$str>. If an arrayref of strings
+are provided, one 'test' is run for each string against the content of the
+current page.
+
+A default description of 'Content lacks "$str"' will be provided if there
+is no description.
+
+=cut
+
+sub content_lacks {
+    my $self = shift;
+    my $str = shift;
+    my $desc = shift;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $content = $self->get_page_source();
+
+    if (not ref $str eq 'ARRAY') {
+        my $desc = qq{Content lacks "$str"} if (not defined $desc);
+        return lacks_string($content , $str, $desc );
+    }
+    elsif (ref $str eq 'ARRAY') {
+        for my $s (@$str) {
+            my $desc = qq{Content lacks "$s"} if (not defined $desc);
+            lacks_string($content , $s, $desc );
+        }
+    }
+}
+
+
+=head2 $twd->text_contains( $str [, $desc ] )
+
+   $twd->text_contains( $str [, $desc ] )
+   $twd->text_contains( [$str_1, $str_2] [, $desc ] )
+
+Tells if the text of the page (as returned by C<< get_body() >>) contains
+I<$str>. If an arrayref of strings are provided, one 'test' is run for each
+regex against the content of the current page.
+
+A default description of 'Text contains "$str"' will be provided if there
+is no description.
+
+To also match the HTML see, C<< content_uncontains() >>.
+
+=cut
+
+sub text_contains {
+    my $self = shift;
+    my $str = shift;
+    my $desc = shift;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $text = $self->get_body();
+
+    if (not ref $str eq 'ARRAY') {
+        my $desc = qq{Text contains "$str"} if (not defined $desc);
+        return contains_string($text , $str, $desc );
+    }
+    elsif (ref $str eq 'ARRAY') {
+        for my $s (@$str) {
+            my $desc = qq{Text contains "$s"} if (not defined $desc);
+            contains_string($text , $s, $desc );
+        }
+    }
+}
+
+=head2 $twd->text_lacks( $str [, $desc ] )
+
+   $twd->text_lacks( $str [, $desc ] )
+   $twd->text_lacks( [$str_1, $str_2] [, $desc ] )
+
+Tells if the text of the page (as returned by C<< get_body() >>)
+ does NOT contain I<$str>. If an arrayref of strings
+are provided, one 'test' is run for each regex against the content of the
+current page.
+
+A default description of 'Text is lacks "$str"' will be provided if there
+is no description.
+
+To also match the HTML see, C<< content_lacks() >>.
+
+=cut
+
+sub text_lacks {
+    my $self = shift;
+    my $str = shift;
+    my $desc = shift;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $text = $self->get_body();
+
+    if (not ref $str eq 'ARRAY') {
+        my $desc = qq{Text is lacks "$str"} if (not defined $desc);
+        return lacks_string($text , $str, $desc );
+    }
+    elsif (ref $str eq 'ARRAY') {
+        for my $s (@$str) {
+            my $desc = qq{Text is lacks "$s"} if (not defined $desc);
+            lacks_string($text , $s, $desc );
+        }
+    }
+}
+
+
 
 1;
 
@@ -354,7 +503,7 @@ MyApp::WebDriver rather than all the individual test files.
 =item *
 
 Created by: Luke Closs <lukec@cpan.org>, but inspired by
- L<Test::WWW::Selenium> and it's authors.
+ L<Test::WWW::Selenium> and its authors.
 
 =back
 

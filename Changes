@@ -12,7 +12,7 @@
 
       Requires at least Selenium::Remote::Driver 0.18 to work.
 
-    - Adding test checking methods:
+    - Adding text checking methods:
 
         # Run regex's against the entire page source
         content_like()
@@ -21,6 +21,15 @@
         # Run regex's against just the "text" of the page
         text_like()
         text_unlike()
+
+        # Check page source for strings
+        content_contains()
+        content_lacks()
+
+        # Check text of page for strings
+        text_contains()
+        text_lacks()
+
 
       The names are intentionally the same as their Test::WWW::Mechanize
       counterparts.  However, these methods may take an arrayref of regular
